@@ -96,7 +96,28 @@ class ExpressaoRegular:
         return er
 
     def er_grupos(self, head, tail):
-        pass
+        start = None
+        finish = None
+        group = False
+        er = []
+        for char in tail:
+            if char == "[":
+                group = True
+            elif group:
+                start = char
+                group = False
+            elif start and not finish:
+                if char == "-":
+                    pass
+                else:
+                    finish = char
+            elif start and finish:
+                temp = "|".join(chr(c) for c in range(ord(start), ord(finish) + 1))
+                start = None
+                finish = None
+                for c in temp:
+                    er.append(c)
+        self.expressao = er
 
 
 if __name__ == "__main__":
