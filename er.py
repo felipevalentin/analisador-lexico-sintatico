@@ -13,11 +13,87 @@ class ExpressaoRegular:
                     self.er_grupos(head, tail)
 
     def er_normal(self, tail):
-        for char in tail:
-            if char == "?":
-                pass
+        er = tail.strip()
+        er = self.add_and(er)
+        er = self.add_parenteses(er)
+        er = self.expandir_extensoes(er)
+        self.expressao = er
+
+    def expandir_extensoes(self, tail):
+        er = []
+        ps = []
+        lp = None
+        for i, char in enumerate(tail):
+            last = len(er) - 1
+            if char == "(":
+                er.append("(")
+                ps.append(last + 1)
+            elif char == ")":
+                er.append(")")
+                lp = ps.pop()
             elif char == "+":
-                pass
+                er.append(".")
+                if lp is not None:
+                    er += er[lp : last + 1]
+                else:
+                    er.append(er[last])
+                er.append("*")
+            elif char == "?":
+                er.append("|")
+                er.append("&")
+            else:
+                er.append(char)
+        return er
+
+    def add_parenteses(self, tail):
+        er = []
+        ps = []
+        lp = None
+        for i, char in enumerate(tail):
+            last = len(er) - 1
+            if char == "(":
+                er.append("(")
+                ps.append(last + 1)
+            elif char == ")":
+                er.append(")")
+                lp = ps.pop()
+            elif char == "+":
+                if lp is not None:
+                    er.insert(lp, "(")
+                    er.append("+")
+                    er.append(")")
+                    lp = None
+                else:
+                    er.insert(last, "(")
+                    er.append("+")
+                    er.append(")")
+            elif char == "?":
+                if lp:
+                    er.insert(lp, "(")
+                    er.append("?")
+                    er.append(")")
+                    lp = None
+                else:
+                    er.insert(last, "(")
+                    er.append("?")
+                    er.append(")")
+            else:
+                er.append(char)
+        return er
+
+    def add_and(self, tail):
+        er = []
+        for i in range(len(tail)):
+            if (
+                i > 0
+                and tail[i] not in ["|", "+", "?", ")"]
+                and tail[i - 1] not in ["|", "("]
+            ):
+                er.insert(len(er), ".")
+                er.append(tail[i])
+            else:
+                er.append(tail[i])
+        return er
 
     def er_grupos(self, head, tail):
         pass
@@ -26,3 +102,4 @@ class ExpressaoRegular:
 if __name__ == "__main__":
     er = ExpressaoRegular()
     er.ler_arquivo("entrada_er.txt")
+    print("".join(er.expressao))
