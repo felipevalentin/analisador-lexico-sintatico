@@ -21,14 +21,9 @@ class Automato:
             self.alfabeto = f.readline().strip().split(",")
             self.transicoes = []
             for line in f:
-                a, b, c = line.split(",")
-                c = c.strip().split("-")
+                a, b, c = line.strip().split(",")
+                c = c.split("-")
                 self.transicoes.append([a, b, c])
-            print(self.numero_estados)
-            print(self.estado_inicial)
-            print(self.estados_finais)
-            print(self.alfabeto)
-            print(self.transicoes)
 
     def escrever_arquivo(self, nome):
         with open(nome, "w") as f:

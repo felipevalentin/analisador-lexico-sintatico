@@ -99,24 +99,13 @@ class ExpressaoRegular:
         start = None
         finish = None
         group = False
-        er = []
-        for char in tail:
-            if char == "[":
-                group = True
-            elif group:
-                start = char
-                group = False
-            elif start and not finish:
-                if char == "-":
-                    pass
-                else:
-                    finish = char
-            elif start and finish:
-                temp = "|".join(chr(c) for c in range(ord(start), ord(finish) + 1))
-                start = None
-                finish = None
-                for c in temp:
-                    er.append(c)
+        lower = "|".join(chr(c) for c in range(ord("a"), ord("z") + 1))
+        upper = "|".join(chr(c) for c in range(ord("A"), ord("Z") + 1))
+        digit = "|".join(chr(c) for c in range(ord("0"), ord("9") + 1))
+        er = tail.replace("[a-z]", lower)
+        er = er.replace("[a-zA-Z]", lower + "|" + upper)
+        er = er.replace("[A-Z]", upper)
+        er = er.replace("[0-9]", digit)
         self.expressao = er
 
 
