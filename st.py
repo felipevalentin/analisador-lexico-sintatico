@@ -17,7 +17,7 @@ class Tree:
         self.leaves = dict()
         self.id_counter = 1
         self.root = self.make_tree(re)
-        self.followpos = [set() for _ in range(self.id_counter - 1)]
+        self.followpos = [set() for _ in range(self.id_counter)]
         self.postorder_nullable_firstpos_lastpos_followpos(self.root)
 
     def make_node(self, operator, tree):
@@ -121,6 +121,8 @@ class Tree:
             self.print_tree(node.left, level + 1)
 
 
-t = Tree("((a|b)*.a.b.b).#")
-t.print_tree()
-print(t.followpos)
+if __name__ == "__main__":
+
+    t = Tree("(b.b.a*).#")
+    t.print_tree()
+    print(t.followpos)

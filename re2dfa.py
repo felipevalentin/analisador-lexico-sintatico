@@ -1,4 +1,5 @@
 import st
+import af
 
 
 class State:
@@ -74,7 +75,7 @@ class DFA:
                 SET = state.transitions[a]
                 for state2 in self.states:
                     if state2.id_set == SET:
-                        state.transitions[a] = state2.id
+                        state.transitions[a] = state2.id - 1
         if has_none_state:
             self.states.append(State(self.alphabet, [], self.id_counter, self.terminal))
             for a in self.alphabet:
@@ -112,4 +113,21 @@ class DFA:
 
 t = st.Tree("((a|b)*.a.b.b).#")
 d = DFA(["a", "b"], t)
+a = af.Automato(
+    numero_estados=0,
+    alfabeto=d.alphabet,
+    estado_inicial=0,
+    estados_finais=[],
+    transicoes=[],
+)
+d.post_processing()
+for s in d.states:
+    for alf in a.alfabeto:
+        a.transicoes.append([str(a.numero_estados), alf, [str(s.transitions[alf])]])
+    if s.final:
+        a.estados_finais.append(a.numero_estados)
+    a.numero_estados += 1
+
+a.escrever_arquivo("saida_automato.txt")
+
 print(d)

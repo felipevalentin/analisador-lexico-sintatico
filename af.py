@@ -27,9 +27,9 @@ class Automato:
 
     def escrever_arquivo(self, nome):
         with open(nome, "w") as f:
-            f.write(self.numero_estados + "\n")
-            f.write(self.estado_inicial + "\n")
-            f.write(",".join(self.estados_finais) + "\n")
+            f.write(str(self.numero_estados) + "\n")
+            f.write(str(self.estado_inicial) + "\n")
+            f.write(",".join(str(e) for e in self.estados_finais) + "\n")
             f.write(",".join(self.alfabeto) + "\n")
             for line in self.transicoes:
                 a, b, c = line
