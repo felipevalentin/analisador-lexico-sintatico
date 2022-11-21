@@ -107,9 +107,9 @@ class Tree:
                 + node["label"]
                 + " "
                 + (str(node["leaf_id"]) if node["leaf_id"] is not None else "")
-                + " "
-                + str(node["firstpos"])
-                + " "
-                + str(node["lastpos"])
+                # + " "
+                # + str(node["firstpos"])
+                # + " "
+                # + str(node["lastpos"])
             )
             self.print_tree(node["left"], level + 1)

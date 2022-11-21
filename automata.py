@@ -1,12 +1,14 @@
 class Automata:
     def __init__(
         self,
+        def_re=None,
         numero_estados=None,
         estado_inicial=None,
         estados_finais=None,
         alfabeto=None,
         transicoes=None,
     ):
+        self.def_re = def_re
         self.numero_estados = numero_estados
         self.estado_inicial = estado_inicial
         self.estados_finais = estados_finais
