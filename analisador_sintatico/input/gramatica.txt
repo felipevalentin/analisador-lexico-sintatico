@@ -1,0 +1,6 @@
+A' B C D E
+A' -> C B
+B -> + C B | &
+C -> E D
+D -> * E D | &
+E -> ( A' ) | id
