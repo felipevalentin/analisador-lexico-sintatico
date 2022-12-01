@@ -1,0 +1,17 @@
+$ E
+$ E' T
+$ E' T' F
+$ E' T' id
+$ E' T'
+$ E'
+$ E' T +
+$ E' T
+$ E' T' F
+$ E' T' id
+$ E' T'
+$ E' T' F *
+$ E' T' F
+$ E' T' id
+$ E' T'
+$ E'
+$

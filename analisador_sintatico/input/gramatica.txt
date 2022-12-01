@@ -1,6 +1,6 @@
-A' B C D E
-A' -> C B
-B -> + C B | &
-C -> E D
-D -> * E D | &
-E -> ( A' ) | id
+E E' T T' F
+E  -> T E'
+E' -> + T E' | &
+T  -> F T'
+T' -> * F T' | &
+F  -> ( E ) | id

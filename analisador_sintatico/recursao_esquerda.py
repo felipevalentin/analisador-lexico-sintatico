@@ -1,37 +1,33 @@
 import gramatica
 
 
-def eliminar(gramatica):
-    ordenado = gramatica.nao_terminais
-
-    for i in range(len(ordenado)):
+def eliminar(g):
+    for i in range(len(g.nao_terminais)):
         for j in range(i):
-            for producao_i in gramatica.producoes[ordenado[i]]:
-                if producao_i[0] == ordenado[j]:
-                    for producao_j in gramatica.producoes[ordenado[j]]:
+            for producao_i in g.producoes[g.nao_terminais[i]]:
+                if producao_i[0] == g.nao_terminais[j]:
+                    for producao_j in g.producoes[g.nao_terminais[j]]:
                         nova_producao = (
                             producao_j + producao_i[1:]
                             if producao_j != "&"
                             else producao_i[1:]
                         )
-                        gramatica.producoes[ordenado[i]].append(nova_producao)
-                    gramatica.producoes[ordenado[i]].remove(producao_i)
-        direta(gramatica, ordenado[i])
+                        g.producoes[g.nao_terminais[i]].append(nova_producao)
+                    g.producoes[g.nao_terminais[i]].remove(producao_i)
+        direta(g, g.nao_terminais[i])
 
 
-def direta(gramatica, nao_terminal):
-    novo_nao_terminal = nao_terminal + "'"
-    gramatica.nao_terminais.append(novo_nao_terminal)
-
-    producoes_novo_nao_terminal = ["&"]
-    producoes_nao_terminal = gramatica.producoes[nao_terminal].copy()
-
-    if all(
-        producao[0] != nao_terminal for producao in gramatica.producoes[nao_terminal]
-    ):
+def direta(g, nao_terminal):
+    if all(producao[0] != nao_terminal for producao in g.producoes[nao_terminal]):
         return
 
-    for producao in gramatica.producoes[nao_terminal]:
+    novo_nao_terminal = nao_terminal + "'"
+    g.nao_terminais.append(novo_nao_terminal)
+
+    producoes_novo_nao_terminal = ["&"]
+    producoes_nao_terminal = g.producoes[nao_terminal].copy()
+
+    for producao in g.producoes[nao_terminal]:
         if producao[0] == nao_terminal:
             producoes_novo_nao_terminal.append(producao[1:] + novo_nao_terminal)
         else:
@@ -41,10 +37,11 @@ def direta(gramatica, nao_terminal):
             producoes_nao_terminal.append(nova_producao)
         producoes_nao_terminal.remove(producao)
 
-    gramatica.producoes[novo_nao_terminal] = producoes_novo_nao_terminal
-    gramatica.producoes[nao_terminal] = producoes_nao_terminal
+    g.producoes[novo_nao_terminal] = producoes_novo_nao_terminal
+    g.producoes[nao_terminal] = producoes_nao_terminal
 
 
 g = gramatica.Gramatica("input/gramatica.txt")
 eliminar(g)
 print(g.producoes)
+print(g.terminais, g.nao_terminais)

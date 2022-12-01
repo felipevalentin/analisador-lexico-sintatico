@@ -2,26 +2,29 @@ import gramatica
 import first_follow
 
 
-def construir_tabela_analise(gram: gramatica):
+def construir_tabela_analise(g: gramatica):
+    first = first_follow.first(g)
+    follow = first_follow.follow(g)
+
     tabela_analise = dict()
-    for nao_terminal in gram.nao_terminais:
+    for nao_terminal in g.nao_terminais:
         tabela_analise[nao_terminal] = dict()
-        for terminal in gram.terminais + ["$"]:
+        for terminal in [*g.terminais, "$"]:
             tabela_analise[nao_terminal][terminal] = "\\"
 
-    for nao_terminal in gram.nao_terminais:
-        for producao in gram.producoes[nao_terminal]:
-            first = set()
+    for nao_terminal in g.nao_terminais:
+        for producao in g.producoes[nao_terminal]:
+            first_producao = []
             for simbolo in producao:
-                temp_first = first_follow.first(gram, simbolo)
-                first = first.union(temp_first)
-                if "&" not in temp_first:
+                for terminal in first[simbolo]:
+                    if terminal not in first_producao:
+                        first_producao.append(terminal)
+                if "&" not in first_producao:
                     break
 
-            for terminal in first:
+            for terminal in first_producao:
                 if terminal == "&":
-                    follow = first_follow.follow(gram, nao_terminal)
-                    for simbolo in follow:
+                    for simbolo in follow[nao_terminal]:
                         tabela_analise[nao_terminal][simbolo] = producao
 
                 else:
@@ -29,15 +32,17 @@ def construir_tabela_analise(gram: gramatica):
     return tabela_analise
 
 
-g = gramatica.Gramatica("input/gramatica.txt")
-tabela = construir_tabela_analise(g)
-print(g.terminais)
-print("    ", end="")
-for terminal in g.terminais + ["$"]:
-    print(terminal, "   ", end="")
-print()
-for nao_terminal in g.nao_terminais:
-    print(nao_terminal, end="   ")
-    for terminal in g.terminais + ["$"]:
-        print(f"{tabela[nao_terminal][terminal]:<5}", end="")
+if __name__ == "__main__":
+
+    g = gramatica.Gramatica("input/gramatica.txt")
+    tabela = construir_tabela_analise(g)
+
+    print("      ", end="")
+    for terminal in list(g.terminais) + ["$"]:
+        print(f"{terminal:<6}", end="")
     print()
+    for nao_terminal in g.nao_terminais:
+        print(f"{nao_terminal:<2}", end="    ")
+        for terminal in list(g.terminais) + ["$"]:
+            print(f"{''.join(tabela[nao_terminal][terminal]):<6}", end="")
+        print()

@@ -1,70 +1,78 @@
-import gramatica as gram
+import gramatica
+import copy
+
+# 3 exemplos de cada
+# 3 exemplos de programa com tokens
 
 
-# melhor retornar o dicionário em vez do first do simbolo
+def first(g):
+    first_dict = {}
 
-def first(gramatica, simbolo_entrada):
-    if simbolo_entrada == "&":
-        return set("&")
-    if simbolo_entrada in gramatica.terminais:
-        return set(simbolo_entrada)
+    # first de terminal = terminal
+    for simbolo in [*g.nao_terminais, *g.terminais, "&"]:
+        first_dict[simbolo] = [simbolo] if simbolo in [*g.terminais, "&"] else []
 
-    conjunto_first = set()
+    # continuar inserindo ate nao conseguir mais
+    while True:
+        antigo = copy.deepcopy(first_dict)
 
-    for producao in gramatica.producoes[simbolo_entrada]:
-        if producao[0] in gramatica.terminais:
-            conjunto_first.add(producao[0])
-        elif producao == "&":
-            conjunto_first.add("&")
-        else:
-            for simbolo in producao:
-                first_simbolo = first(gramatica, simbolo)
+        for simbolo in g.nao_terminais:
+            for producao in g.producoes[simbolo]:
+                if producao[0] in [*g.terminais, "&"]:
+                    if producao[0] not in first_dict[simbolo]:
+                        first_dict[simbolo].append(producao[0])
+                else:
+                    for simbolo_producao in producao:
+                        for terminal in first_dict[simbolo_producao]:
+                            if terminal not in [*first_dict[simbolo], "&"]:
+                                first_dict[simbolo].append(terminal)
 
-                if "&" not in first_simbolo:
-                    conjunto_first = conjunto_first.union(first_simbolo)
-                    break
+                        if "&" not in first_dict[simbolo_producao]:
+                            break
 
-                first_simbolo.remove("&")
-                conjunto_first = conjunto_first.union(first_simbolo)
-
-    return conjunto_first
+        if antigo == first_dict:
+            return first_dict
 
 
-def follow(gramatica, simbolo_entrada):
-    dicionario_follow = dict()
-    for nao_terminal in gramatica.nao_terminais:
-        dicionario_follow[nao_terminal] = set()
+def follow(g):
+    follow_dict = {}
+    first_dict = first(g)
+    for nao_terminal in g.nao_terminais:
+        follow_dict[nao_terminal] = []
 
-    acrescentou = True
-    while acrescentou:
-        antigo = dicionario_follow.copy()
-        for nao_terminal in gramatica.nao_terminais:
-            if nao_terminal == gramatica.inicial:
-                dicionario_follow[nao_terminal].add("$")
+    while True:
+        antigo = copy.deepcopy(follow_dict)
 
-            for producao in gramatica.producoes[nao_terminal]:
+        for nao_terminal in g.nao_terminais:
+            if nao_terminal == g.inicial:
+                if "$" not in follow_dict[nao_terminal]:
+                    follow_dict[nao_terminal].append("$")
+
+            for producao in g.producoes[nao_terminal]:
                 for i, simbolo in enumerate(producao):
-                    if simbolo in gramatica.nao_terminais:
-                        first_beta = set()
-                        empty_beta = True
+
+                    if simbolo in g.nao_terminais:
+                        first_beta = []
                         for j in range(i + 1, len(producao)):
-                            temp_first = first(gramatica, producao[j])
-                            first_beta = first_beta.union(temp_first)
-                            if "&" not in temp_first:
-                                empty_beta = False
+                            for terminal in first_dict[producao[j]]:
+                                if terminal not in first_beta:
+                                    first_beta.append(terminal)
+                            if "&" not in first_beta:
                                 break
+                        else:
+                            for terminal in follow_dict[nao_terminal]:
+                                if terminal not in follow_dict[simbolo]:
+                                    follow_dict[simbolo].append(terminal)
 
-                        if "&" in first_beta:
-                            first_beta.remove("&")
-                        dicionario_follow[simbolo] = dicionario_follow[simbolo].union(first_beta)
+                        for terminal in first_beta:
+                            if terminal not in [*follow_dict[simbolo], "&"]:
+                                follow_dict[simbolo].append(terminal)
 
-                        if empty_beta:
-                            dicionario_follow[simbolo] = dicionario_follow[simbolo].union(dicionario_follow[nao_terminal])
-        if antigo == dicionario_follow:
-            acrescentou = False
-    return dicionario_follow[simbolo_entrada]
+        if antigo == follow_dict:
+            return follow_dict
 
 
-g = gram.Gramatica("input/gramatica.txt")
-d = follow(g, "A'")
-print(d)
+if __name__ == "__main__":
+    gram = gramatica.Gramatica("input/gramatica.txt")
+    for k, v in follow(gram).items():
+        print(k, v)
