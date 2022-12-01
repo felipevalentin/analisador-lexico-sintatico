@@ -29,6 +29,12 @@ def first(g):
 
                         if "&" not in first_dict[simbolo_producao]:
                             break
+                    else:
+                        if (
+                            "&" in first_dict[simbolo_producao]
+                            and "&" not in first_dict[simbolo]
+                        ):
+                            first_dict[simbolo].append("&")
 
         if antigo == first_dict:
             return first_dict
@@ -73,6 +79,11 @@ def follow(g):
 
 
 if __name__ == "__main__":
-    gram = gramatica.Gramatica("input/gramatica.txt")
-    for k, v in follow(gram).items():
+    g = gramatica.Gramatica("input/first_follow/gramatica1.txt")
+    print("FIRST")
+    for k, v in first(g).items():
+        print(k, v)
+    print()
+    print("FOLLOW")
+    for k, v in follow(g).items():
         print(k, v)

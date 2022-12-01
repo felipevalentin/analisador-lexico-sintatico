@@ -9,7 +9,7 @@ def eliminar(g):
                     for producao_j in g.producoes[g.nao_terminais[j]]:
                         nova_producao = (
                             producao_j + producao_i[1:]
-                            if producao_j != "&"
+                            if producao_j != ["&"]
                             else producao_i[1:]
                         )
                         g.producoes[g.nao_terminais[i]].append(nova_producao)
@@ -21,18 +21,22 @@ def direta(g, nao_terminal):
     if all(producao[0] != nao_terminal for producao in g.producoes[nao_terminal]):
         return
 
-    novo_nao_terminal = nao_terminal + "'"
+    novo_nao_terminal = nao_terminal
+    while novo_nao_terminal in g.nao_terminais:
+        novo_nao_terminal += "'"
     g.nao_terminais.append(novo_nao_terminal)
 
-    producoes_novo_nao_terminal = ["&"]
+    producoes_novo_nao_terminal = [["&"]]
     producoes_nao_terminal = g.producoes[nao_terminal].copy()
 
     for producao in g.producoes[nao_terminal]:
         if producao[0] == nao_terminal:
-            producoes_novo_nao_terminal.append(producao[1:] + novo_nao_terminal)
+            producoes_novo_nao_terminal.append(producao[1:] + [novo_nao_terminal])
         else:
             nova_producao = (
-                producao + novo_nao_terminal if producao != "&" else novo_nao_terminal
+                producao + [novo_nao_terminal]
+                if producao != ["&"]
+                else [novo_nao_terminal]
             )
             producoes_nao_terminal.append(nova_producao)
         producoes_nao_terminal.remove(producao)
@@ -41,7 +45,8 @@ def direta(g, nao_terminal):
     g.producoes[nao_terminal] = producoes_nao_terminal
 
 
-g = gramatica.Gramatica("input/gramatica.txt")
-eliminar(g)
-print(g.producoes)
-print(g.terminais, g.nao_terminais)
+if __name__ == "__main__":
+    g = gramatica.Gramatica("input/recursao_esquerda/gramatica1.txt")
+    eliminar(g)
+    for k, v in g.producoes.items():
+        print(k, v)

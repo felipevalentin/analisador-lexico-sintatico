@@ -1,0 +1,5 @@
+E T F P
+E -> E + T | E − T | T
+T -> T ∗ F | F | T / F
+F -> F ∗ ∗ P | P
+P -> ( E ) | id | cte

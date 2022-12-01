@@ -1,0 +1,6 @@
+C -> IF | WHILE | WRITE | begin C_LIST end
+C_LIST -> C ; C_LIST | &
+IF -> if E then C ELSE
+WHILE -> while E do C
+WRITE -> write ( E )
+E -> id | num

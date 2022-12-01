@@ -1,11 +1,12 @@
 import gramatica
+import recursao_esquerda
 from collections import defaultdict
 
 
-def fatorar(gramatica):
-    for _ in range(20):
-        indireta(gramatica)
-        direta(gramatica)
+def fatorar(g):
+    for _ in range(10):
+        indireta(g)
+        direta(g)
 
 
 def indireta(gramatica):
@@ -13,15 +14,28 @@ def indireta(gramatica):
         while True:
             for producao in gramatica.producoes[nao_terminal]:
                 if producao[0] in g.nao_terminais:
-                    gramatica.producoes[nao_terminal].remove(producao)
                     for producao_j in gramatica.producoes[producao[0]]:
-                        if (
-                            producao_j + producao[1:]
-                            not in gramatica.producoes[nao_terminal]
-                        ):
-                            gramatica.producoes[nao_terminal].append(
+                        if producao_j != ["&"]:
+                            if (
                                 producao_j + producao[1:]
-                            )
+                                not in gramatica.producoes[nao_terminal]
+                            ):
+                                gramatica.producoes[nao_terminal].append(
+                                    producao_j + producao[1:]
+                                )
+                        else:
+                            if len(producao) == 1:
+                                if ["&"] not in gramatica.producoes[nao_terminal]:
+                                    gramatica.producoes[nao_terminal].append(["&"])
+                            else:
+                                if (
+                                    producao[1:]
+                                    not in gramatica.producoes[nao_terminal]
+                                ):
+                                    gramatica.producoes[nao_terminal].append(
+                                        producao[1:]
+                                    )
+                    gramatica.producoes[nao_terminal].remove(producao)
                     break
             else:
                 break
@@ -61,7 +75,8 @@ def direta(g):
         pos += 1
 
 
-g = gramatica.Gramatica("input/gramatica3.txt")
-fatorar(g)
-for k, v in g.producoes.items():
-    print(k, v)
+if __name__ == "__main__":
+    g = gramatica.Gramatica("input/fatoracao/gramatica3.txt")
+    fatorar(g)
+    for k, v in g.producoes.items():
+        print(k, v)
