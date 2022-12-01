@@ -75,13 +75,14 @@ class Automata:
                         self.transicoes.append([ist, alp, fst])
             if state in finals:
                 self.estados_finais.append(i)
-def imprimir_atributos(self):
-        print("Def regex: " + self.def_re)
-        print("Numero de estados: " + str(self.numero_estados))
-        print("Estado Inicial: " + str(self.estado_inicial))
-        print("Estados Finais: " + str(self.estados_finais))
-        print("Alfabeto: " + str(self.alfabeto))
-        print("Transições: " + str(self.transicoes[0]))
-        for p in range(1, len(self.transicoes)):
-            print("            " + str(self.transicoes[p]))
-
+        
+        def imprimir_atributos(self):
+            print("Def regex: " + self.def_re)
+            print("Numero de estados: " + str(self.numero_estados))
+            print("Estado Inicial: " + str(self.estado_inicial))
+            print("Estados Finais: " + str(self.estados_finais))
+            print("Alfabeto: " + str(self.alfabeto))
+            print("Transições: " + str(self.transicoes[0]))
+            for p in range(1, len(self.transicoes)):
+                print("            " + str(self.transicoes[p]))
+     
