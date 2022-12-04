@@ -20,11 +20,11 @@ def indireta(g):
     # o máximo que pode acontecer de derivações sem entrar em um loop é o somatório do tamanho da maior produção de cada
     # não terminal.
     first = first_follow.first(g)
-    maximo_tentativas = sum(
-        max([len(producao) for producao in g.producoes[nao_terminal]]) + len(g.producoes[nao_terminal])
-        for nao_terminal in g.nao_terminais
-    )
     for nao_terminal in g.nao_terminais:
+        maximo_tentativas = sum(
+            max([len(producao) for producao in g.producoes[nao_terminal]]) + len(g.producoes[nao_terminal])
+            for nao_terminal in g.nao_terminais
+        )
         while maximo_tentativas:
             producoes_nao_terminal = copy.deepcopy(g.producoes[nao_terminal])
             for producao_i in producoes_nao_terminal:
@@ -98,7 +98,7 @@ def direta(g):
 
 if __name__ == "__main__":
     # Há 3 gramaticas para teste: gramatica1.txt, gramatica2.txt e gramatica3.txt
-    g = gramatica.Gramatica("testes/fatoracao/gramatica2.txt")
+    g = gramatica.Gramatica("testes/fatoracao/gramatica3.txt")
     g.imprimir_gramatica()
     fatorar(g)
     g.imprimir_gramatica()

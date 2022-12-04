@@ -1,0 +1,5 @@
+P D L C
+P -> D L | L
+D -> d D | &
+L -> L ; C | C
+C -> cmd ; | &
