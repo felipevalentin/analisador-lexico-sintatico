@@ -45,7 +45,7 @@ def direta(g, nao_terminal):
 
 if __name__ == "__main__":
     # Há 3 gramaticas para teste: gramatica1.txt, gramatica2.txt e gramatica3.txt
-    g = gramatica.Gramatica("testes/epsilon/gramatica3.txt")
+    g = gramatica.Gramatica("testes/recursao_esquerda/gramatica1.txt")
     g.imprimir_gramatica()
     eliminar(g)
     g.imprimir_gramatica()
