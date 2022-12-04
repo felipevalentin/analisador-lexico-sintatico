@@ -1,0 +1,10 @@
+        $        begin        end     inteiro         id        ,          ;         =     com        +         [      ]  
+P       \    begin D C end     \         \            \         \          \         \      \         \         \      \  
+D       \          \           \     inteiro id       \         \          \         \      \         \         \      \  
+I       \          \           \         \            \        , id        \         \      \         \         \      \  
+C       \          \           \         \         T = E C'     \          \         \    com C'      \         \      \  
+E       \          \           \         \           T E'       \          \         \      \         \         \      \  
+T       \          \           \         \            id        \          \         \      \         \         \      \  
+T'      \          \           \         \            \         \          \         \      \         \       [ E ]    \  
+C'      \          \           &         \            \         \      ; T = E C'    \      \         \         \      \  
+E'      \          \           &         \            \         \          &         \      \       + T E'      \      &  

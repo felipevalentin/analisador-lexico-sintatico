@@ -30,10 +30,16 @@ class Gramatica:
                 if i == 0:
                     self.inicial = nao_terminal
 
+    def imprimir_gramatica(self):
+        print("Não Terminais:", " ".join(self.nao_terminais))
+        print("Terminais:", " ".join(self.terminais))
+        print("Inicial:", self.inicial)
+        print("Produções: ")
+        for k, v in self.producoes.items():
+            print(f"{k} -> {' | '.join(''.join(producao) for producao in v)}")
+        print()
+
 
 if __name__ == "__main__":
-    g = Gramatica("input/gramatica.txt")
-    print(g.nao_terminais)
-    print(g.terminais)
-    print(g.inicial)
-    print(g.producoes)
+    g = Gramatica("input/gramatica1.txt")
+    g.imprimir_gramatica()

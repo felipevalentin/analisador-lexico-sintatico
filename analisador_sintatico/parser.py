@@ -1,22 +1,17 @@
 import preditivo
 import gramatica
+import fatoracao
+import recursao_esquerda
+import utils
 
 
 def parser(g, tokens):
     tabela_analise = preditivo.construir_tabela_analise(g)
-    with open("output/tabela_analise.txt", "w") as f:
-        f.write(f"{'':>2}")
-        for terminal in list(g.terminais) + ["$"]:
-            f.write(f"{terminal:>7}")
-        f.write("\n")
-        for nao_terminal in g.nao_terminais:
-            f.write(f"{nao_terminal:<2}")
-            for terminal in [*g.terminais, "$"]:
-                f.write(f"{''.join(tabela_analise[nao_terminal][terminal]):>7}")
-            f.write("\n")
+    utils.salvar_tabela(g, tabela_analise)
 
     indice_tokens = 0
     pilha = ["$", g.inicial]
+
     with open("output/pilha.txt", "w") as f:
         f.write(" ".join(pilha) + "\n")
         while pilha[-1] != "$":
@@ -25,18 +20,25 @@ def parser(g, tokens):
             if topo == tokens[indice_tokens]:
                 indice_tokens += 1
             elif topo in g.terminais:
-                raise "Error"
+                print("Invalido")
+                exit()
             elif tabela_analise[topo][tokens[indice_tokens]] == "\\":
-                raise "Error"
+                print("Invalido")
+                exit()
             else:
                 for simbolo in reversed(tabela_analise[topo][tokens[indice_tokens]]):
                     if simbolo != "&":
                         pilha.append(simbolo)
 
             f.write(" ".join(pilha) + "\n")
-        print("Ok")
+        print("Valido")
 
 
-g = gramatica.Gramatica("input/gramatica.txt")
-lista_t = ["id", "+", "id", "*", "id", "$"]
-parser(g, lista_t)
+if __name__ == "__main__":
+    # Há 3 gramaticas para teste: gramatica1.txt, gramatica2.txt e gramatica3.txt
+    g = gramatica.Gramatica("input/gramatica1.txt")
+    tokens = utils.ler_tokens("input/tokens1.txt")
+    g.imprimir_gramatica()
+    fatoracao.fatorar(g)
+    recursao_esquerda.eliminar(g)
+    parser(g, tokens)

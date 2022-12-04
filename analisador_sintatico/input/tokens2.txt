@@ -1,0 +1,13 @@
+begin
+inteiro
+id
+,
+id
+com
+;
+id
+=
+id
++
+id
+end
