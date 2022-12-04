@@ -34,3 +34,8 @@ Para rodar basta executar seus .py
 python3 epsilon.py
 
 
+# Saída
+
+Saída do parser = output/pilha.txt e output/tabela_analise.txt
+
+Saída dos testes é no terminal.
