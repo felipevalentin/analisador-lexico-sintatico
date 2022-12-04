@@ -1,3 +1,5 @@
+import copy
+
 import gramatica
 import first_follow
 from collections import defaultdict
@@ -24,15 +26,16 @@ def indireta(g):
     )
     for nao_terminal in g.nao_terminais:
         while maximo_tentativas:
-            for producao_i in g.producoes[nao_terminal]:
-                if producao_i[0] in g.nao_terminais:
+            producoes_nao_terminal = copy.deepcopy(g.producoes[nao_terminal])
+            for producao_i in producoes_nao_terminal:
+                if producao_i[0] in g.nao_terminais and producao_i[0] != nao_terminal:
                     first_sequencia_i = []
                     for simbolo in producao_i:
                         utils.union(first_sequencia_i, first[simbolo])
                         if "&" not in first_sequencia_i:
                             break
 
-                    for producao_j in g.producoes[nao_terminal]:
+                    for producao_j in producoes_nao_terminal:
                         first_sequencia_j = []
                         if producao_i != producao_j:
                             for simbolo in producao_j:
