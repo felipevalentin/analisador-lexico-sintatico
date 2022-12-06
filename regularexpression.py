@@ -9,13 +9,13 @@ class Regex:
         re = self.parse_groups(re, parsed)
         re = self.create_regex_list(re)
         re = self.expand_extension(re)
-        re = self.add_and_symbol(re)
         return "".join(re)
 
     def parse_groups(self, raw_re, parsed={}):
         re = raw_re
         for parsed_re in parsed:
-            re = re.replace(parsed_re.def_re, parsed_re.re)
+            temp = "(" + parsed_re.re + ")"
+            re = re.replace(parsed_re.def_re, temp)
         lower = "|".join(chr(c) for c in range(ord("a"), ord("z") + 1))
         upper = "|".join(chr(c) for c in range(ord("A"), ord("Z") + 1))
         digit = "|".join(chr(c) for c in range(ord("0"), ord("9") + 1))
@@ -36,24 +36,13 @@ class Regex:
                 re += ["|", "&", ")"]
             elif raw_er[i] == "+":
                 if raw_er[i - 1] == ")":
-                    re += re["".join(re).rindex("(") :]
+                    re.append(".")
+                    re += re["".join(re).rindex("(") : -1]
                 else:
                     re.append(re[-1])
                 re.append("*")
             else:
                 re.append(raw_er[i])
-        return re
-
-    def add_and_symbol(self, raw_re):
-        re = []
-        for i in range(len(raw_re)):
-            if (
-                i > 0
-                and raw_re[i] not in ["|", ")", ".", "*"]
-                and raw_re[i - 1] not in ["|", "(", "."]
-            ):
-                re.append(".")
-            re.append(raw_re[i])
         return re
 
     def add_end_of_regex_symbol(self, raw_re):
@@ -63,20 +52,13 @@ class Regex:
         return re
 
     def create_regex_list(self, raw_re):
-        re = []
-        alf = ""
+        re = [*raw_re]
+        is_id = False
         for c in raw_re:
-            if c in ["(", ")", ".", "*", "|"]:
-                if alf != "":
-                    re.append(alf)
-                    if alf not in self.alphabet:
-                        self.alphabet.append(alf)
-                    alf = ""
-                re.append(c)
-            else:
-                alf = alf + c
-        if alf != "":
-            re.append(alf)
-            if alf not in self.alphabet:
-                self.alphabet.append(alf)
+            if c == "\\" and not is_id:
+                is_id = True
+            elif c not in ["(", ")", ".", "*", "|", "+", "?"] or is_id:
+                if c not in self.alphabet:
+                    self.alphabet.append(c)
+                is_id = False
         return re
