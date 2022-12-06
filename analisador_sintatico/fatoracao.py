@@ -22,7 +22,8 @@ def indireta(g):
     first = first_follow.first(g)
     for nao_terminal in g.nao_terminais:
         maximo_tentativas = sum(
-            max([len(producao) for producao in g.producoes[nao_terminal]]) + len(g.producoes[nao_terminal])
+            max([len(producao) for producao in g.producoes[nao_terminal]])
+            + len(g.producoes[nao_terminal])
             for nao_terminal in g.nao_terminais
         )
         while maximo_tentativas:
@@ -47,12 +48,18 @@ def indireta(g):
                             if terminal != "&" and terminal in first_sequencia_j:
                                 for producao_k in g.producoes[producao_i[0]]:
                                     if producao_k != ["&"]:
-                                        utils.add(g.producoes[nao_terminal], producao_k + producao_i[1:])
+                                        utils.add(
+                                            g.producoes[nao_terminal],
+                                            producao_k + producao_i[1:],
+                                        )
                                     else:
                                         if len(producao_i) == 1:
                                             utils.add(g.producoes[nao_terminal], ["&"])
                                         else:
-                                            utils.add(g.producoes[nao_terminal], producao_i[1:])
+                                            utils.add(
+                                                g.producoes[nao_terminal],
+                                                producao_i[1:],
+                                            )
                                 break
                         else:
                             continue
@@ -91,7 +98,9 @@ def direta(g):
                     else:
                         utils.add(g.producoes[novo_nao_terminal], ["&"])
                 else:
-                    utils.add(g.producoes[nao_terminal], producao[:1] + [novo_nao_terminal])
+                    utils.add(
+                        g.producoes[nao_terminal], producao[:1] + [novo_nao_terminal]
+                    )
 
         pos += 1
 

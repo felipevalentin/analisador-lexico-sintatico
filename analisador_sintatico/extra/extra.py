@@ -16,15 +16,25 @@ def indireta(gramatica):
                 if producao[0] in g.nao_terminais:
                     for producao_j in gramatica.producoes[producao[0]]:
                         if producao_j != ["&"]:
-                            if producao_j + producao[1:] not in gramatica.producoes[nao_terminal]:
-                                gramatica.producoes[nao_terminal].append(producao_j + producao[1:])
+                            if (
+                                producao_j + producao[1:]
+                                not in gramatica.producoes[nao_terminal]
+                            ):
+                                gramatica.producoes[nao_terminal].append(
+                                    producao_j + producao[1:]
+                                )
                         else:
                             if len(producao) == 1:
                                 if ["&"] not in gramatica.producoes[nao_terminal]:
                                     gramatica.producoes[nao_terminal].append(["&"])
                             else:
-                                if producao[1:] not in gramatica.producoes[nao_terminal]:
-                                    gramatica.producoes[nao_terminal].append(producao[1:])
+                                if (
+                                    producao[1:]
+                                    not in gramatica.producoes[nao_terminal]
+                                ):
+                                    gramatica.producoes[nao_terminal].append(
+                                        producao[1:]
+                                    )
                     gramatica.producoes[nao_terminal].remove(producao)
                     break
             else:
@@ -54,8 +64,13 @@ def direta(g):
                         if ["&"] not in g.producoes[novo_nao_terminal]:
                             g.producoes[novo_nao_terminal].append(["&"])
                 else:
-                    if producao[:1] + [novo_nao_terminal] not in g.producoes[novo_nao_terminal]:
-                        g.producoes[nao_terminal].append(producao[:1] + [novo_nao_terminal])
+                    if (
+                        producao[:1] + [novo_nao_terminal]
+                        not in g.producoes[novo_nao_terminal]
+                    ):
+                        g.producoes[nao_terminal].append(
+                            producao[:1] + [novo_nao_terminal]
+                        )
 
         pos += 1
 

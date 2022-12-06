@@ -1,7 +1,7 @@
-if p_r
-a id
 then p_r
+a id
+i id
 write p_r
 ( p_r
-a id
+1 num
 ) p_r

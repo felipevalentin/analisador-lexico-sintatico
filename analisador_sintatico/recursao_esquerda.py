@@ -10,7 +10,11 @@ def eliminar(g):
             for producao_i in g.producoes[nao_terminais[i]]:
                 if producao_i[0] == nao_terminais[j]:
                     for producao_j in g.producoes[nao_terminais[j]]:
-                        nova_producao = producao_j + producao_i[1:] if producao_j != ["&"] else producao_i[1:]
+                        nova_producao = (
+                            producao_j + producao_i[1:]
+                            if producao_j != ["&"]
+                            else producao_i[1:]
+                        )
                         g.producoes[nao_terminais[i]].append(nova_producao)
                     g.producoes[nao_terminais[i]].remove(producao_i)
         direta(g, nao_terminais[i])
@@ -35,7 +39,11 @@ def direta(g, nao_terminal):
         if producao[0] == nao_terminal:
             producoes_novo_nao_terminal.append(producao[1:] + [novo_nao_terminal])
         else:
-            nova_producao = producao + [novo_nao_terminal] if producao != ["&"] else [novo_nao_terminal]
+            nova_producao = (
+                producao + [novo_nao_terminal]
+                if producao != ["&"]
+                else [novo_nao_terminal]
+            )
             producoes_nao_terminal.append(nova_producao)
         producoes_nao_terminal.remove(producao)
 

@@ -1,6 +1,7 @@
-        $      +         *         (      )     id   
-E       \      \         \       T E'     \    T E'  
-E'      &    + T E'      \         \      &     \    
-T       \      \         \       F T'     \    F T'  
-T'      &      &       * F T'      \      &     \    
-F       \      \         \       ( E )    \     id   
+            $              begin              end    ;        if         then        while         do        write         (    )    id    num  
+C           \        begin C_LIST end          \     \        IF          \          WHILE         \         WRITE         \    \    \      \   
+C_LIST      \    begin C_LIST end ; C_LIST     &     \    IF ; C_LIST     \      WHILE ; C_LIST    \     WRITE ; C_LIST    \    \    \      \   
+IF          \                \                 \     \    if E then C     \            \           \           \           \    \    \      \   
+WHILE       \                \                 \     \         \          \       while E do C     \           \           \    \    \      \   
+WRITE       \                \                 \     \         \          \            \           \      write ( E )      \    \    \      \   
+E           \                \                 \     \         \          \            \           \           \           \    \    id    num  

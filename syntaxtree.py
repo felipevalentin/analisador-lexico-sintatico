@@ -76,12 +76,16 @@ class Tree:
         elif node["label"] == "." and not node["is_id"]:
             node["nullable"] = node["left"]["nullable"] and node["right"]["nullable"]
             if node["left"]["nullable"]:
-                node["firstpos"] = node["left"]["firstpos"].union(node["right"]["firstpos"])
+                node["firstpos"] = node["left"]["firstpos"].union(
+                    node["right"]["firstpos"]
+                )
             else:
                 node["firstpos"] = node["left"]["firstpos"]
 
             if node["right"]["nullable"]:
-                node["lastpos"] = node["left"]["lastpos"].union(node["right"]["lastpos"])
+                node["lastpos"] = node["left"]["lastpos"].union(
+                    node["right"]["lastpos"]
+                )
             else:
                 node["lastpos"] = node["right"]["lastpos"]
             self.compute_follows(node)
@@ -128,12 +132,11 @@ def regex_from_read_file(name):
     return res
 
 
-'''regexs = regex_from_read_file("input/er.txt")
+"""regexs = regex_from_read_file("input/er.txt")
 for regex in regexs:
     print(regex.re, regex.alphabet)
     tree = Tree(regex.add_end_of_regex_symbol(regex.re))
     dfa = automata.Automata(alfabeto=regex.alphabet)
     dfa.re2dfa(tree)
     dfa.def_re = regex.re
-    dfa.imprimir_atributos()'''
-
+    dfa.imprimir_atributos()"""

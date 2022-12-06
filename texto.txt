@@ -1,2 +1,2 @@
-if a then
-write ( a )
+then . if
+write ( 1 )

@@ -1,7 +1,9 @@
 def salvar_tabela(g, tabela_analise):
     with open("output/tabela_analise.txt", "w") as f:
         largura_para_terminal = {}
-        largura_nao_terminais = max(len(nao_terminal) for nao_terminal in g.nao_terminais) + 4
+        largura_nao_terminais = (
+            max(len(nao_terminal) for nao_terminal in g.nao_terminais) + 4
+        )
         for terminal in ["$", *g.terminais]:
             largura = 0
             for nao_terminal in g.nao_terminais:
@@ -17,7 +19,9 @@ def salvar_tabela(g, tabela_analise):
         for nao_terminal in g.nao_terminais:
             f.write(f"{nao_terminal:<{largura_nao_terminais}}")
             for terminal in ["$", *g.terminais]:
-                f.write(f"{' '.join(tabela_analise[nao_terminal][terminal]):^{largura_para_terminal[terminal]}}")
+                f.write(
+                    f"{' '.join(tabela_analise[nao_terminal][terminal]):^{largura_para_terminal[terminal]}}"
+                )
             f.write("\n")
 
 
@@ -48,3 +52,7 @@ def add(lista, elemento):
 def discard(lista, elemento):
     if elemento in lista:
         lista.remove(elemento)
+
+def intersection(lista1, lista2):
+    lista3 = [elemento for elemento in lista1 if elemento in lista2]
+

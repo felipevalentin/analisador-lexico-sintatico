@@ -11,7 +11,11 @@ def eliminar(g):
     for nao_terminal in nao_terminais:
         novas_producoes_nao_terminal = []
         for producao in g.producoes[nao_terminal]:
-            conjunto_nao_epsilon = {item: producao.count(item) for item in producao if item not in conjunto_epsilon}
+            conjunto_nao_epsilon = {
+                item: producao.count(item)
+                for item in producao
+                if item not in conjunto_epsilon
+            }
             if nao_terminal == g.inicial and not conjunto_nao_epsilon:
                 novo_inicial = nao_terminal
                 while novo_inicial in g.nao_terminais:
@@ -22,7 +26,9 @@ def eliminar(g):
 
             novas_producoes = powerset(producao)
             for nova_producao in novas_producoes:
-                if all(nova_producao.count(k) >= v for k, v in conjunto_nao_epsilon.items()):
+                if all(
+                    nova_producao.count(k) >= v for k, v in conjunto_nao_epsilon.items()
+                ):
                     utils.add(novas_producoes_nao_terminal, nova_producao)
         utils.union(g.producoes[nao_terminal], novas_producoes_nao_terminal)
         utils.discard(g.producoes[nao_terminal], ["&"])
