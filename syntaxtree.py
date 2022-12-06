@@ -128,11 +128,12 @@ def regex_from_read_file(name):
     return res
 
 
-regexs = regex_from_read_file("input/er.txt")
+'''regexs = regex_from_read_file("input/er.txt")
 for regex in regexs:
     print(regex.re, regex.alphabet)
     tree = Tree(regex.add_end_of_regex_symbol(regex.re))
     dfa = automata.Automata(alfabeto=regex.alphabet)
     dfa.re2dfa(tree)
     dfa.def_re = regex.re
-    dfa.imprimir_atributos()
+    dfa.imprimir_atributos()'''
+

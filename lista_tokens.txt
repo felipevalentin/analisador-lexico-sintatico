@@ -1,0 +1,7 @@
+if p_r
+a id
+then p_r
+write p_r
+( p_r
+a id
+) p_r

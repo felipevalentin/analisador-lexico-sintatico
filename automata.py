@@ -17,7 +17,9 @@ class Automata:
 
     def ler_arquivo(self, nome):
         with open(nome) as f:
-            self.numero_estados = f.readline().strip()
+            n = nome.split(".", 1)
+            self.def_re = n[0]
+            self.numero_estados = int(f.readline().strip())
             self.estado_inicial = f.readline().strip()
             self.estados_finais = f.readline().strip().split(",")
             self.alfabeto = f.readline().strip().split(",")
@@ -25,7 +27,8 @@ class Automata:
             for line in f:
                 a, b, c = line.strip().split(",")
                 c = c.split("-")
-                self.transicoes.append([a, b, c])
+                for e in c:                    
+                    self.transicoes.append([a, b, [e]])
 
     def escrever_arquivo(self, nome):
         with open(nome, "w") as f:
@@ -75,14 +78,14 @@ class Automata:
                         self.transicoes.append([ist, alp, fst])
             if state in finals:
                 self.estados_finais.append(i)
-        
+    
     def imprimir_atributos(self):
         print("Def regex: " + self.def_re)
         print("Numero de estados: " + str(self.numero_estados))
         print("Estado Inicial: " + str(self.estado_inicial))
         print("Estados Finais: " + str(self.estados_finais))
         print("Alfabeto: " + str(self.alfabeto))
+        
         print("Transições: " + str(self.transicoes[0]))
         for p in range(1, len(self.transicoes)):
             print("            " + str(self.transicoes[p]))
-     

@@ -1,5 +1,94 @@
 from automata import Automata
-#from union import rename_states
+
+
+def rename_states(ats): 
+    
+    index = 0
+    states = []
+    
+    '''Vasculha as transições e coloca os estados id de estado na lista states'''
+    for i in range(0, len(ats)):
+        
+        
+        states.clear()
+        
+        
+        for l in range(0, len(ats[i].transicoes)):
+            
+            if (ats[i].transicoes[l][0] not in states):
+                
+                states.append(ats[i].transicoes[l][0])
+                
+            if (ats[i].transicoes[l][2] not in states):
+                
+                states.append(ats[i].transicoes[l][2])
+        print(states)
+                
+      
+    
+        
+        
+        ''' Renomeia os estados para um nome unico(q#) e depois muda para um id unico'''
+       
+        for s in range(0, len(states)):
+            nome = ("q" + str(index + 1))
+            if (ats[i].estado_inicial == states[s]):
+                                
+                ats[i].estado_inicial = nome
+                
+               
+            
+            for l in range(0, len(ats[i].estados_finais)):
+                if (ats[i].estados_finais[l] == states[s]):
+                    ats[i].estados_finais[l] = nome
+            print("")
+            print(ats[i].estados_finais)
+            
+            for l in range(0, len(ats[i].transicoes)):                             
+                if (ats[i].transicoes[l][0] == states[s]):
+                    ats[i].transicoes[l][0] = nome
+                if (ats[i].transicoes[l][2] == states[s]):
+                    ats[i].transicoes[l][2] = nome
+            
+            index = index + 1
+    
+    states.clear()
+    for i in range(0, len(ats)):
+        
+        for l in range(0, len(ats[i].transicoes)):
+           
+           if (ats[i].transicoes[l][0] not in states):                
+                states.append(ats[i].transicoes[l][0])
+                
+           if (ats[i].transicoes[l][2] not in states):               
+                states.append(ats[i].transicoes[l][2])
+       
+    print(states)
+    '''index = 0
+    
+    for s in range(0, len(states)):
+        
+        for i in range(0, len(ats)):
+                   
+            if (ats[i].estado_inicial == states[s]):
+               
+                ats[i].estado_inicial = s
+                
+               
+            
+            for l in range(0, len(ats[i].estados_finais)):
+                if (ats[i].estados_finais[l] == states[s]):
+                    ats[i].estados_finais[l] = s
+            
+            for l in range(0, len(ats[i].transicoes)):                             
+                if (ats[i].transicoes[l][0] == states[s]):
+                    ats[i].transicoes[l][0] = s
+                if (ats[i].transicoes[l][2] == states[s]):
+                    ats[i].transicoes[l][2] = s'''
+            
+   
+    return(len(states))
+
 
 '''Função que recebe um estado, calcula seu fecho a partir das transições e coloca na lista de fecho'''
 def calc_fecho(estado , transicoes, fecho):
@@ -8,7 +97,7 @@ def calc_fecho(estado , transicoes, fecho):
     if(estado not in fecho):
         fecho.append(estado)
     
-    '''Para cada trasição verifia se é uma transição por &. Se for verifica se o estado de destino já está no fecho e se não tiver
+    '''Para cada trasição verifica se é uma transição por &. Se for verifica se o estado de destino já está no fecho e se não tiver
     coloca no fecho o estado'''
     
     for i in range(0, len(transicoes)):
@@ -19,22 +108,13 @@ def calc_fecho(estado , transicoes, fecho):
                 calc_fecho(transicoes[i][2], transicoes, fecho)
                 
                 '''Para evitar fechos com mesmo estados mas com estados em posições diferente na lista colocamos eles sempre em ordem crescente'''
-                fecho.sort() 
-    
+                #fecho.sort() 
+    #print(fecho)
 
 '''Função que calcula os novos estados'''
 def calc_estado(estado, estados, e_fechos, transicoes_nfa, transicoes_dfa, alfabeto):
     
-    '''print("")
-    print("init")
-    print(estado)
-    print(estados)
-    print(e_fechos)
-    print(transicoes_nfa)
-    print(transicoes_dfa)
-    print(alfabeto)
-    print("init")
-    print("")'''
+   
     
     ''' Para cada estado a e letra b, calcula a transição e o novo estado'''
     for b in range(0, len(alfabeto)):
@@ -57,21 +137,14 @@ def calc_estado(estado, estados, e_fechos, transicoes_nfa, transicoes_dfa, alfab
         ''' A partir de estado_temp, olha cada um dos fechos dos elementos de estado_temp. Se o elemento não estiver lá, ele é colocado.'''    
         for d in range(0, len(estado_temp)):            
             
-            
+            #print(estado_temp[d])
             for e in range(0, len(e_fechos[estado_temp[d]][1])):               
                 if(e_fechos[estado_temp[d]][1][e] not in estado_temp):
                     estado_temp.append(e_fechos[estado_temp[d]][1][e])
             
-        '''Organiza temp para evitar redundancia'''   
-        estado_temp.sort()
         
         
-        '''print("")
-        print("aqui")
-        print(b)
-        print(estado_temp)
-        print("aqui")
-        print("")'''
+       
         
         '''Cria a transição do estado atual para o novo estado criado'''
         transicoes_dfa.append([estado, alfabeto[b] , estado_temp])
@@ -83,17 +156,7 @@ def calc_estado(estado, estados, e_fechos, transicoes_nfa, transicoes_dfa, alfab
             
             
         
-    '''print("")    
-    print("estados")
-    print(estados)
-    print("")'''
             
-            
-    
-        
-                        
-                    
-                   
                  
 
 '''Função que converte um automato finito não deterministico nfa para um deterministuco dfa'''
@@ -113,7 +176,7 @@ def nfa_e_to_dfa(nfa):
         fecho =  []
         calc_fecho(i, nfa.transicoes, fecho)        
         e_fechos.append([i, fecho])
-        #print(e_fechos)
+    #print(e_fechos)
     
     estado_inicial = e_fechos[0][1]
     estados.append(e_fechos[0][1])
@@ -138,21 +201,27 @@ def nfa_e_to_dfa(nfa):
     for k in range(0, len(remove)):
         estados.remove(remove[k])
         
+    
     '''for k in range(0, len(estados)):
         print(estados[k])'''
     
     
-    '''Analisa os items que compões cada estado novo e verifica se algum dele era esado final. Depois coloca ess estado novo como final'''
+    '''Analisa os items que compões cada estado novo e verifica se algum dele era estado final. Depois coloca ess estado novo como final'''
     for k in range(0, len(nfa.estados_finais)):
         for j in range(0, len(estados)):
             if (nfa.estados_finais[k] in estados[j]):
                 if (estados[j] not in estados_finais):
                     estados_finais.append(estados[j])
-    #print(estados_finais)
+                
+                    
+    '''Remove & do alfabeto'''
+    if('&' in alfabeto):
+        alfabeto.remove('&')
     
     
         
     automato = Automata(def_re, len(estados), estado_inicial, estados_finais, alfabeto, transicoes)
+    #rename_states([automato])
     return automato
          
     
@@ -168,12 +237,26 @@ def nfa_e_to_dfa(nfa):
 nfa2 =  Automata("nfa2", 5, 0, [1,2], ['a','b', '&'], [[0,'a',0],[0,'a',1],[0,'b',2],[0,'&',3],[1,'a',1],[1,'b',3],[1,'&',3],[2,'b',2],[2,'a',4],[3,'a',1],[3,'a',3],[3,'b',2],[3,'b',3],[3,'&',4],[4,'a',4],[4,'b',2],[4,'&',3]])
 nfa3 =  Automata("nfa3", 3, 0, [0,1,2], ['0', '1', '2', '&'], [[0,'&',1], [0,'0',0], [1,'1',1], [1,'&',2],[2,'2',2]])
 nfa4 =  Automata("nfa4", 4, 0, [3], ['a', 'b', 'c', 'd'], [[0,'a',0], [0,'&', 1], [0,'&',2],[1,'b', 1],[1,'b',3],[2,'c',2],[2,'c',3]])
-dfa = nfa_e_to_dfa(nfa1)
+nfa5 =  Automata("nfa5", 5, 0, [1,2], ['0', '1'], [[0,'0',1], [0,'1', 2], [1,'0',1],[1,'0', 3],[1,'1',1],[2,'0',2],[2,'1',2],[2,'1',4]])
+nfa6 =  Automata()
+nfa7 =  Automata()
+nfa8 =  Automata()
+nfa6.ler_arquivo("dfa1.txt")
+nfa7.ler_arquivo("dfa2.txt")
+rename_states([nfa6])
+#nfa6.imprimir_atributos()
+#nfa1.imprimir_atributos()
+#nfa7.imprimir_atributos()
+#rename_states([nfa7])
+#dfa = nfa_e_to_dfa(nfa1)
 #dfa = nfa_e_to_dfa(nfa2)
 #dfa = nfa_e_to_dfa(nfa3)
 #dfa = nfa_e_to_dfa(nfa4)
-dfa.imprimir_atributos()'''
-
+#dfa = nfa_e_to_dfa(nfa5)
+dfa = nfa_e_to_dfa(nfa6)
+dfa.imprimir_atributos()
+#dfa1 = nfa_e_to_dfa(nfa5)
+#dfa1.imprimir_atributos()'''
 
     
     
