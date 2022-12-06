@@ -36,7 +36,7 @@ class Gramatica:
         print("Inicial:", self.inicial)
         print("Produções: ")
         for k, v in self.producoes.items():
-            print(f"{k} -> {' | '.join(''.join(producao) for producao in v)}")
+            print(f"{k} -> {' | '.join(' '.join(producao) for producao in v)}")
         print()
 
 

@@ -1,10 +1,7 @@
 import gramatica
-import first_follow
 
 
-def construir_tabela_analise(g: gramatica):
-    first = first_follow.first(g)
-    follow = first_follow.follow(g)
+def construir_tabela_analise(g: gramatica, first, follow):
     tabela_analise = dict()
 
     for nao_terminal in g.nao_terminais:

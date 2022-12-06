@@ -25,7 +25,11 @@ def ler_tokens(nome_arquivo):
     tokens = []
     with open(nome_arquivo, "r") as f:
         for line in f:
-            tokens.append(line.strip())
+            lexema, padrao = line.strip().split()
+            if padrao == "p_r":
+                tokens.append(lexema)
+            else:
+                tokens.append(padrao)
     tokens.append("$")
     return tokens
 

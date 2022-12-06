@@ -2,13 +2,12 @@ import preditivo
 import gramatica
 import fatoracao
 import recursao_esquerda
+import first_follow
+import epsilon
 import utils
 
 
-def parser(g, tokens):
-    tabela_analise = preditivo.construir_tabela_analise(g)
-    utils.salvar_tabela(g, tabela_analise)
-
+def parser(g, tabela_analise, tokens):
     indice_tokens = 0
     pilha = ["$", g.inicial]
 
@@ -21,10 +20,10 @@ def parser(g, tokens):
                 indice_tokens += 1
             elif topo in g.terminais:
                 print("Invalido")
-                exit()
+                raise ValueError
             elif tabela_analise[topo][tokens[indice_tokens]] == "\\":
                 print("Invalido")
-                exit()
+                raise ValueError
             else:
                 for simbolo in reversed(tabela_analise[topo][tokens[indice_tokens]]):
                     if simbolo != "&":
@@ -39,6 +38,14 @@ if __name__ == "__main__":
     g = gramatica.Gramatica("input/gramatica1.txt")
     tokens = utils.ler_tokens("input/tokens1.txt")
     g.imprimir_gramatica()
+    print(tokens)
+
     fatoracao.fatorar(g)
+    # epsilon.eliminar(g) # Tirar a epsilon produção pode tornar a gramatica não deterministica.
     recursao_esquerda.eliminar(g)
-    parser(g, tokens)
+    first = first_follow.first(g)
+    follow = first_follow.follow(g)
+    tabela_analise = preditivo.construir_tabela_analise(g, first, follow)
+    utils.salvar_tabela(g, tabela_analise)
+
+    parser(g, tabela_analise, tokens)

@@ -1,13 +1,13 @@
-begin
-inteiro
-id
-,
-id
-com
-;
-id
-=
-id
-+
-id
-end
+begin p_r
+inteiro p_r
+a id
+, p_r
+b id
+com p_r
+; p_r
+c id
+= p_r
+d id
++ p_r
+e id
+end p_r

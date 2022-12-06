@@ -1,5 +1,5 @@
-id
-+
-id
-*
-id
+a id
++ p_r
+b id
+* p_r
+c id
