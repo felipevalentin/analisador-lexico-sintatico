@@ -1,11 +1,11 @@
 # analisador-lexico-sintatico
 O automato é representado da seguinte forma:
-	numero_estados: diz quantos estados ele tem
-	estado_inicial: qual estado inicial dele
-	estados_finais: lista do estados finais
-	alfabeto: lista dos simbolos do alfabeto
-	def_re: a definição regular que gerou ele
-	transicoes: as transicoes na forma [estado de origem, simbolo, estado de destino]. Caso haja n transições de mesma origem e mesmo simbolo, serão criadas n transicoes.
+numero_estados: diz quantos estados ele tem
+estado_inicial: qual estado inicial dele
+estados_finais: lista do estados finais
+alfabeto: lista dos simbolos do alfabeto
+def_re: a definição regular que gerou ele
+transicoes: as transicoes na forma [estado de origem, simbolo, estado de destino]. Caso haja n transições de mesma origem e mesmo simbolo, serão criadas n transicoes.
 
 Para ler o regex, é necessário colocar ponto a cada concatenação.
 Para executar analisador léxico precisamos executar em ordem as seguintes funções:
