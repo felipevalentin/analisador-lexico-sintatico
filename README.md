@@ -1,4 +1,11 @@
 # analisador-lexico-sintatico
+O automato é representado da seguinte forma:
+	numero_estados: diz quantos estados ele tem
+	estado_inicial: qual estado inicial dele
+	estados_finais: lista do estados finais
+	alfabeto: lista dos simbolos do alfabeto
+	def_re: a definição regular que gerou ele
+	transicoes: as transicoes na forma [estado de origem, simbolo, estado de destino]. Caso haja n transições de mesma origem e mesmo simbolo, serão criadas n transicoes.
 
 Para executar analisador léxico precisamos executar em ordem as seguintes funções:
 	
@@ -9,8 +16,10 @@ Para executar analisador léxico precisamos executar em ordem as seguintes funç
 		Criar um automato(classe Automata) com o alfabeto do regex como parametro, automata.Automata(alfabeto=regex.alphabet)
 		Usar a função re2dfa(tree) da classe automato para gerar um automato a partir da arvore e salva-lo em alguma lista.
 	
-	Depois passar a lista para a função union.union(ats) da biblioteca Union que faz a união dos automatos na lista por &
-	nfa_to_dfa.nfa_e_to_dfa(automato_unido) para determizar o automato gerado no passo anterior
+	Depois passar a lista para a função union.union(ats) da biblioteca Union que faz a união dos automatos da lista por '&' e renomeia os estados de 0 a o total de estados para identifica-los
+	unicamente.
+	
+	nfa_to_dfa.nfa_e_to_dfa(automato_unido) para determizar o automato gerado no passo anterior.
 	
 	Com o automato podemos gerar a tabela léxica criando um obejto da classe Tabela_Lexica, passando como parametros a lista de palavras reservadas pré-carregadas, automatos originais, 
 	automato determinizado e a lista de regexs.
@@ -26,3 +35,7 @@ Caso se deseje ver os atributos de qualquer automato(numero de estados, transiç
 A função da tabela léxica imprimir_simbolos, imprimi na tela as palavras reservadas e os padrões de tokens.
 
 Em caso de erro léxico na leitura de uma palavra e verificação se ele é um token, caso ela não pertença a linguagem, um erro léxico é apontado e o programa é abortado.
+
+Os arquivos de teste para as ers estão na pasta input e os automatos gerados na pasta output.
+
+Há também no código automatos colocados manualmente que estão em comentários para testar as funções de união e determinização.
