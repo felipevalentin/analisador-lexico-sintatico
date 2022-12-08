@@ -30,7 +30,7 @@ Para executar analisador léxico precisamos executar em ordem as seguintes funç
 	transições do automato determinizado.
 		
 Para gerar um automato a partir de um arquivo usa a função da classe Automata ler_arquivo para cria-lo. Com isso ele pode ser passado para as outras as funlçoes de union.union() caso se deseje uni-lo
-	com outros automatos ou para nfa_to_defa.nfa_e_to_dfa para determiniza-lo.
+	com outros automatos ou para nfa_to_def.nfa_e_to_dfa para determiniza-lo.
 
 Caso se deseje ver os atributos de qualquer automato(numero de estados, transições, estados finais) bastar usar a função imprimir_atributos da classe Automata para imprimir na tela.
 A função da tabela léxica imprimir_simbolos, imprimi na tela as palavras reservadas e os padrões de tokens.
